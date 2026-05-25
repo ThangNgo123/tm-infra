@@ -1,13 +1,10 @@
 global:
   env: dev
-
 be:
   image:
-    tag: dev-a1b2c3
-
+    tag: dev-9d5d7c4e23e0c67c7a9ea8b6ed279f294e736c37
 fe:
   image:
     tag: dev-x8y7z6
-
 ingress:
   host: dev.tm.thangns.id.vn
