@@ -1,0 +1,17 @@
+namespace: tm-app
+
+fe:
+  image:
+    repository: wincorn/tm-fe
+    tag: v1
+
+be:
+  image:
+    repository: wincorn/tm-be
+    tag: v1
+
+ingress:
+  host: tm.thangns.id.vn
+
+externalSecret:
+  secretName: tm-app-prod

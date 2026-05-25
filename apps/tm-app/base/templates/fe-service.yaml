@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tm-fe-service
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: tm-fe
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

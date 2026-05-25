@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: tm-be
+  namespace: {{ .Values.namespace }}
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: tm-be
+
+  template:
+    metadata:
+      labels:
+        app: tm-be
+
+    spec:
+      containers:
+        - name: tm-be
+
+          image: "{{ .Values.be.image.repository }}:{{ .Values.be.image.tag }}"
+
+          ports:
+            - containerPort: 3000
+
+          envFrom:
+            - secretRef:
+                name: tm-app-secret

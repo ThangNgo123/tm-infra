@@ -1,0 +1,13 @@
+global:
+  env: prod
+
+be:
+  image:
+    tag: prod-9f8e7d
+
+fe:
+  image:
+    tag: prod-1a2b3c
+
+ingress:
+  host: tm.thangns.id.vn

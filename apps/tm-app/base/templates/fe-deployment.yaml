@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tm-fe
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tm-fe
+  template:
+    metadata:
+      labels:
+        app: tm-fe
+    spec:
+      containers:
+        - name: tm-fe
+          image: "{{ .Values.fe.image.repository }}:{{ .Values.fe.image.tag }}"
+
+          ports:
+            - containerPort: 80

@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+
+metadata:
+  name: tm-app
+  namespace: argocd
+
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+            namespace: tm-app-dev
+
+          - env: prod
+            namespace: tm-app-prod
+
+  template:
+    metadata:
+      name: "tm-app-{{env}}"
+
+    spec:
+      project: default
+
+      source:
+        repoURL: https://github.com/ThangNgo123/tm-infra.git
+        targetRevision: main
+
+        path: apps/tm-app/base
+
+        helm:
+          valueFiles:
+            - ../environments/{{env}}/values.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+
+        syncOptions:
+          - CreateNamespace=true

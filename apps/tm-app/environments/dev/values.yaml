@@ -1,0 +1,13 @@
+global:
+  env: dev
+
+be:
+  image:
+    tag: dev-a1b2c3
+
+fe:
+  image:
+    tag: dev-x8y7z6
+
+ingress:
+  host: dev.tm.thangns.id.vn
