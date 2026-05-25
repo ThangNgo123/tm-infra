@@ -8,3 +8,5 @@ fe:
     tag: dev-7828ea77bfa690b07fd72db23bb93868e433d569
 ingress:
   host: dev.tm.thangns.id.vn
+externalSecret:
+  secretName: tm-app-dev

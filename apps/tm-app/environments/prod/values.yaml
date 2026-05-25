@@ -11,3 +11,6 @@ fe:
 
 ingress:
   host: tm.thangns.id.vn
+
+externalSecret:
+  secretName: tm-app-prod
