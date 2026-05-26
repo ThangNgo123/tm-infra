@@ -1,16 +1,12 @@
 global:
   env: prod
-
 be:
   image:
-    tag: prod-9f8e7d
-
+    tag: prod-e716d562a0f564402406c6cf566ff4a733a5803e
 fe:
   image:
     tag: prod-1a2b3c
-
 ingress:
   host: tm.thangns.id.vn
-
 externalSecret:
   secretName: tm-app-prod
