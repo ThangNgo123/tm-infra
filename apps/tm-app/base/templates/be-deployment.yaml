@@ -27,5 +27,7 @@ spec:
             - containerPort: 3000
 
           envFrom:
+            - configMapRef:
+                name: be-config
             - secretRef:
                 name: tm-app-secret
