@@ -1,19 +1,14 @@
 global:
   env: dev
-
 be:
   env:
     NODE_ENV: development
-
   image:
-    tag: dev-9d5d7c4e23e0c67c7a9ea8b6ed279f294e736c37
-
+    tag: dev-f5083c8ba00cdf7d31102a9f167c6ad18c1a500b
 fe:
   image:
     tag: dev-732f97056c565438bbd2918f6f49bf4b7b13ca02
-
 ingress:
   host: dev.tm.thangns.id.vn
-
 externalSecret:
   secretName: tm-app-dev
