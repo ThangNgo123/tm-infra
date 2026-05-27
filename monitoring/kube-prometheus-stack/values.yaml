@@ -1,0 +1,142 @@
+grafana:
+  defaultDashboardsEnabled: false
+  enabled: true
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+
+    hosts:
+      - grafana.tm.thangns.id.vn
+
+    path: /
+    pathType: Prefix
+
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.tm.thangns.id.vn
+
+  adminUser: admin
+
+prometheus:
+  ingress:
+    enabled: false
+
+  prometheusSpec:
+    retention: 7d
+
+    additionalScrapeConfigs:
+      - job_name: tm-be
+
+        metrics_path: /api/v1/metrics
+
+        static_configs:
+          - targets:
+              - tm-be-service.tm-app-prod.svc.cluster.local:3000
+
+  additionalPrometheusRulesMap:
+    tm-alerts:
+      groups:
+        - name: tm-alerts
+
+          rules:
+            - alert: HighErrorRate
+
+              expr: |
+                rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+
+              for: 2m
+
+              labels:
+                severity: critical
+
+              annotations:
+                summary: "Too many 5xx errors"
+
+            - alert: HighMemoryUsage
+
+              expr: |
+                (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 30
+
+              for: 1m
+
+              labels:
+                severity: warning
+
+              annotations:
+                summary: "High memory usage detected"
+                description: "Memory usage is above 30%"
+
+            - alert: AlwaysFiring
+
+              expr: vector(1)
+
+              for: 10s
+
+              labels:
+                severity: warning
+
+              annotations:
+                summary: "Telegram test alert"
+                description: "This is a test alert"
+
+alertmanager:
+  enabled: true
+
+  alertmanagerSpec:
+    secrets:
+      - telegram-secret
+
+  config:
+    global:
+      resolve_timeout: 5m
+
+    route:
+      group_by:
+        - alertname
+
+      group_wait: 10s
+      group_interval: 1m
+      repeat_interval: 2h
+
+      receiver: telegram
+
+    receivers:
+      - name: "null"
+
+      - name: telegram
+
+        telegram_configs:
+          - api_url: https://api.telegram.org
+
+            bot_token_file: /etc/alertmanager/secrets/telegram-secret/bot_token
+
+            chat_id_file: /etc/alertmanager/secrets/telegram-secret/chat_id
+
+            send_resolved: true
+
+            message: |
+              🚨 Alert: {{ .CommonLabels.alertname }}
+
+              Severity: {{ .CommonLabels.severity }}
+
+              Summary: {{ .CommonAnnotations.summary }}
+
+              {{ range .Alerts }}
+              Description: {{ .Annotations.description }}
+              {{ end }}
+
+prometheus-node-exporter:
+  hostRootFsMount:
+    enabled: false
+
+defaultRules:
+  rules:
+    kubeScheduler: false
+    kubeControllerManager: false
+    etcd: false
+    kubeProxy: false

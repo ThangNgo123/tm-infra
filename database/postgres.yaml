@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Namespace
+
+metadata:
+  name: database
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+metadata:
+  name: tm-postgres-pvc
+  namespace: database
+
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: tm-postgres
+  namespace: database
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: tm-postgres
+
+  template:
+    metadata:
+      labels:
+        app: tm-postgres
+
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+
+            - name: POSTGRES_DB
+              value: postgres
+
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: tm-postgres-pvc
+
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: tm-postgres-service
+  namespace: database
+
+spec:
+  selector:
+    app: tm-postgres
+
+  ports:
+    - port: 5432
+      targetPort: 5432
+
+  type: ClusterIP
