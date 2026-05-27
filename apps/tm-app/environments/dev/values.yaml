@@ -7,7 +7,7 @@ be:
     tag: dev-f5083c8ba00cdf7d31102a9f167c6ad18c1a500b
 fe:
   image:
-    tag: dev-732f97056c565438bbd2918f6f49bf4b7b13ca02
+    tag: dev-11536b8726d51e2100cea0bb85d7df1be746b77f
 ingress:
   host: dev.tm.thangns.id.vn
 externalSecret:
