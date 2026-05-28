@@ -4,7 +4,7 @@ be:
   env:
     NODE_ENV: development
   image:
-    tag: dev-f5083c8ba00cdf7d31102a9f167c6ad18c1a500b
+    tag: dev-ae0ca54730d0ca8401cace3a42e37f522ead5341
 fe:
   image:
     tag: dev-11536b8726d51e2100cea0bb85d7df1be746b77f
