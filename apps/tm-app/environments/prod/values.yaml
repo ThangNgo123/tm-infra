@@ -4,7 +4,7 @@ be:
   env:
     NODE_ENV: production
   image:
-    tag: prod-11237db1e60a8e79cf85eb89eda83ddc2684435a
+    tag: prod-2c7643ee052f99c80c3353409911f24cdccc1ed1
 fe:
   image:
     tag: prod-cab2377c824ca89af7bd3c6f14471d7233f7cd16
