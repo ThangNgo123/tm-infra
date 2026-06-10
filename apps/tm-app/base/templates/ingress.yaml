@@ -28,10 +28,3 @@ spec:
                 port:
                   number: 80
 
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: kong-gateway-proxy
-                port:
-                  number: 80
