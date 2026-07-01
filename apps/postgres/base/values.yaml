@@ -14,4 +14,4 @@ storage:
 externalSecret:
   storeName: aws-secretsmanager
   remoteSecretName: tm-app-prod
-  passwordProperty: POSTGRES_PASSWORD
+  passwordProperty: DATABASE_PASSWORD
