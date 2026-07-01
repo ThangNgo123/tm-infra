@@ -1,0 +1,6 @@
+configs:
+  cm:
+    url: https://argocd.tm.thangns.id.vn
+server:
+  extraArgs:
+    - --insecure

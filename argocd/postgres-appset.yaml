@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+
+metadata:
+  name: postgres
+  namespace: argocd
+
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+            namespace: database-dev
+          - env: prod
+            namespace: database-prod
+
+  template:
+    metadata:
+      name: "postgres-{{env}}"
+
+    spec:
+      project: default
+
+      source:
+        repoURL: https://github.com/ThangNgo123/tm-infra.git
+        targetRevision: main
+        path: apps/postgres/base
+        helm:
+          valueFiles:
+            - ../environments/{{env}}/values.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

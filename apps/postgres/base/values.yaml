@@ -1,0 +1,17 @@
+name: tm-postgres
+
+image:
+  repository: postgres
+  tag: "16"
+
+postgres:
+  user: postgres
+  database: postgres
+
+storage:
+  size: 10Gi
+
+externalSecret:
+  storeName: aws-secretsmanager
+  remoteSecretName: tm-app-prod
+  passwordProperty: POSTGRES_PASSWORD

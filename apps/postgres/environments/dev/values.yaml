@@ -1,0 +1,5 @@
+externalSecret:
+  remoteSecretName: tm-app-dev
+
+storage:
+  size: 5Gi
