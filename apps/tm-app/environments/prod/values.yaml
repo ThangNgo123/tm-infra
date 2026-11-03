@@ -7,7 +7,7 @@ be:
     tag: prod-2c7643ee052f99c80c3353409911f24cdccc1ed1
 fe:
   image:
-    tag: prod-435ff8a962a19b665b96e64f753a1184a83bbf9b
+    tag: prod-1f923961f6d2a1672d369a997183b5db7e941c3b
 ingress:
   host: tm.thangns.id.vn
 externalSecret:
